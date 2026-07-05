@@ -1,0 +1,78 @@
+class Node {
+    int data;
+    Node left, right;
+
+    Node(int d) {
+        data = d;
+        left = right = null;
+    }
+}
+
+public class PreorderToBST {
+
+    int index = 0;
+
+    // Build BST from preorder
+    Node preToBST(int[] pre) {
+        index = 0;
+        return build(pre, Integer.MIN_VALUE, Integer.MAX_VALUE);
+    }
+
+    Node build(int[] pre, int min, int max) {
+
+        if (index >= pre.length)
+            return null;
+
+        int value = pre[index];
+
+        if (value < min || value > max)
+            return null;
+
+        Node root = new Node(value);
+        index++;
+
+        root.left = build(pre, min, value);
+        root.right = build(pre, value, max);
+
+        return root;
+    }
+
+    // Postorder Traversal
+    void postOrder(Node root) {
+
+        if (root == null)
+            return;
+
+        postOrder(root.left);
+        postOrder(root.right);
+        System.out.print(root.data + " ");
+    }
+
+    // Inorder Traversal
+    void inorder(Node root) {
+
+        if (root == null)
+            return;
+
+        inorder(root.left);
+        System.out.print(root.data + " ");
+        inorder(root.right);
+    }
+
+    public static void main(String[] args) {
+
+        PreorderToBST obj = new PreorderToBST();
+
+        int[] pre = {40, 30, 35, 80, 100};
+
+        Node root = obj.preToBST(pre);
+
+        System.out.print("Inorder : ");
+        obj.inorder(root);
+
+        System.out.println();
+
+        System.out.print("Postorder : ");
+        obj.postOrder(root);
+    }
+}
