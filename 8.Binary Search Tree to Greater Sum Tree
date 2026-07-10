@@ -1,0 +1,85 @@
+class TreeNode {
+    int val;
+    TreeNode left, right;
+
+    TreeNode(int val) {
+        this.val = val;
+    }
+
+    TreeNode(int val, TreeNode left, TreeNode right) {
+        this.val = val;
+        this.left = left;
+        this.right = right;
+    }
+}
+
+class Solution {
+    int sum = 0;
+
+    public TreeNode bstToGst(TreeNode root) {
+        helper(root);
+        return root;
+    }
+
+    public void helper(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+
+        helper(root.right);
+
+        sum += root.val;
+        root.val = sum;
+
+        helper(root.left);
+    }
+}
+
+public class Main {
+
+    // Inorder Traversal
+    static void inorder(TreeNode root) {
+        if (root == null)
+            return;
+
+        inorder(root.left);
+        System.out.print(root.val + " ");
+        inorder(root.right);
+    }
+
+    public static void main(String[] args) {
+
+        // BST
+        //        4
+        //      /   \
+        //     1     6
+        //    / \   / \
+        //   0   2 5   7
+
+        TreeNode a = new TreeNode(4);
+        TreeNode b = new TreeNode(1);
+        TreeNode c = new TreeNode(6);
+        TreeNode d = new TreeNode(0);
+        TreeNode e = new TreeNode(2);
+        TreeNode f = new TreeNode(5);
+        TreeNode g = new TreeNode(7);
+
+        a.left = b;
+        a.right = c;
+
+        b.left = d;
+        b.right = e;
+
+        c.left = f;
+        c.right = g;
+
+        System.out.print("Before: ");
+        inorder(a);
+
+        Solution obj = new Solution();
+        obj.bstToGst(a);
+
+        System.out.print("\nAfter : ");
+        inorder(a);
+    }
+}
